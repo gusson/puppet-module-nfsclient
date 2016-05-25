@@ -2,8 +2,13 @@
 class nfsclient (
   $gss    = false,
   $keytab = undef,
+  $mountd_port = undef,
+  $statd_port = undef,
+  $lockd_tcp_port = undef
+  $lockd_udp_port = undef
 ) {
 
+  # Secure NFS and GSS settings
   case $::osfamily {
     'RedHat': {
       $gss_line     = 'SECURE_NFS'
@@ -92,5 +97,40 @@ class nfsclient (
       File_line['GSSD_OPTIONS'] ~> Service['rpcbind_service']
     }
   }
+
+  # NFS ports
+  if $mountd_port {
+    validate_integer($mountd_port)
+    file_line { 'MOUNTD_PORT':
+      path  => '/etc/sysconfig/nfs',
+      line  => "MOUNTD_PORT=${mountd_port}"
+      match => '^#?MOUNTD_PORT=.*'
+    }
+  }
+  if $statd_port {
+    validate_integer($statd_port)
+    file_line { 'STATD_PORT':
+      path  => '/etc/sysconfig/nfs',
+      match => '^#?STATD_PORT=.*'
+      line  => "STATD_PORT=${statd_port}"
+    }
+  }
+  if $lockd_tcp_port {
+    validate_integer($lockd_tcp_port)
+    file_line { 'LOCKD_TCPPORT':
+      path  => '/etc/sysconfig/nfs',
+      match => '^#?LOCKD_TCPPORT=.*'
+      line  => "LOCKD_TCPPORT=${lockd_tcp_port}"
+    }
+  }
+  if $lockd_udp_port {
+    validate_integer($lockd_udp_port)
+    file_line { 'LOCKD_UDPPORT':
+      path  => '/etc/sysconfig/nfs',
+      match => '^#?LOCKD_UDPPORT=.*'
+      line  => "LOCKD_UDPPORT=${lockd_udp_port}"
+    }
+  }
+
 }
 
