@@ -1,6 +1,6 @@
 {
   "name": "puppet-module-nfsclient",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "author": "emahags",
   "summary": "Manage nfs client",
   "license": "Apache-2.0",
@@ -20,10 +20,24 @@
   ],
   "operatingsystem_support": [
     {
-      "operatingsystem": "Suse",
+      "operatingsystem": "SLES",
       "operatingsystemrelease": [
         "11",
         "12"
+      ]
+    },
+    {
+      "operatingsystem": "SLED",
+      "operatingsystemrelease": [
+        "11",
+        "12"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "6",
+        "7"
       ]
     }
   ],
@@ -35,6 +49,10 @@
     {
       "name": "ghoneycutt/rpcbind",
       "version_requirement": ">= 1.4.0"
+    },
+    {
+      "name": "ghoneycutt/nfs",
+      "version_requirement": ">= 1.11.0"
     }
   ]
 }
