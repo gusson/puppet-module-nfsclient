@@ -105,6 +105,7 @@ class nfsclient (
       path  => '/etc/sysconfig/nfs',
       line  => "MOUNTD_PORT=${mountd_port}"
       match => '^#?MOUNTD_PORT=.*'
+      notify => Service[rpcbind_service],
     }
   }
   if $statd_port {
@@ -113,6 +114,7 @@ class nfsclient (
       path  => '/etc/sysconfig/nfs',
       match => '^#?STATD_PORT=.*'
       line  => "STATD_PORT=${statd_port}"
+      notify => Service[rpcbind_service],
     }
   }
   if $lockd_tcp_port {
@@ -121,6 +123,7 @@ class nfsclient (
       path  => '/etc/sysconfig/nfs',
       match => '^#?LOCKD_TCPPORT=.*'
       line  => "LOCKD_TCPPORT=${lockd_tcp_port}"
+      notify => Service[rpcbind_service],
     }
   }
   if $lockd_udp_port {
@@ -129,6 +132,7 @@ class nfsclient (
       path  => '/etc/sysconfig/nfs',
       match => '^#?LOCKD_UDPPORT=.*'
       line  => "LOCKD_UDPPORT=${lockd_udp_port}"
+      notify => Service[rpcbind_service],
     }
   }
 

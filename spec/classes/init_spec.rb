@@ -62,6 +62,47 @@ describe 'nfsclient' do
           should contain_file_line('GSSD_OPTIONS').that_notifies('Service[rpcbind_service]')
         end
 
+        it 'should configure mountd port if specified' do
+          params.merge!({'mountd_port' => 892})
+          should contain_file_line('MOUNTD_PORT').with(
+          {
+            'path' => '/etc/sysconfig/nfs',
+            'line' => "MOUNTD_PORT=892",
+            'match' => "^#?MOUNTD_PORT=.*",
+          })
+          should contain_file_line('MOUNTD_PORT').that_notifies('Service[rpcbind_service]')
+        end
+        it 'should configure statd port if specified' do
+          params.merge!({'statd_port' => 662})
+          should contain_file_line('STATD_PORT').with(
+          {
+            'path' => '/etc/sysconfig/nfs',
+            'line' => "STATD_PORT=662",
+            'match' => "^#?STATD_PORT=.*",
+          })
+          should contain_file_line('STATD_PORT').that_notifies('Service[rpcbind_service]')
+        end
+        it 'should configure lockd tcp port if specified' do
+          params.merge!({'lockd_tcp_port' => 32803})
+          should contain_file_line('LOCKD_TCPPORT').with(
+          {
+            'path' => '/etc/sysconfig/nfs',
+            'line' => "LOCKD_TCPPORT=32803",
+            'match' => "^#?LOCKD_TCPPORT=.*",
+          })
+          should contain_file_line('LOCKD_TCPPORT').that_notifies('Service[rpcbind_service]')
+        end
+        it 'should configure lockd udp port if specified' do
+          params.merge!({'lockd_udp_port' => 32796})
+          should contain_file_line('LOCKD_TCPPORT').with(
+          {
+            'path' => '/etc/sysconfig/nfs',
+            'line' => "LOCKD_UDPPORT=32796",
+            'match' => "^#?LOCKD_UDPPORT=.*",
+          })
+          should contain_file_line('LOCKD_UDPPORT').that_notifies('Service[rpcbind_service]')
+        end
+
       end
     end
   end
